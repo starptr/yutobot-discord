@@ -25,29 +25,34 @@ client.on("guildMemberAdd", member => {
 	);
 });
 
-//Listen to commands
+//Listen to commands in the commands channel (except help)
 client.on("message", message => {
-	if (true || (message.channel.id === process.env.DISCORD_CHANNELID_COMMANDS)) {
-		if (message.content.startsWith(process.env.DISCORD_COMMAND_PREFIX)) {
+	const prefix = process.env.DISCORD_COMMAND_PREFIX;
+	//Check message is in commands channel
+	if (message.channel.id === process.env.DISCORD_CHANNELID_COMMANDS) {
+		if (message.content.startsWith(prefix)) {
 			//Valid command syntax; handle command
 			//Tokenize command into words
 			const cmd = message.content.slice(1).trim().split(" ");
 			switch (cmd[0]) {
 				case "ping":
-					message.channel.send("Pong!");
+					message.channel.send("Pong! (￣▽￣)ノ");
 					break;
 				case "help":
 					message.channel.send("no 3>");
 					break;
 				case "uwu":
-					message.channel.send("owo");
+					message.channel.send("owo (*≧▽≦)");
 					break;
 				case "owo":
-					message.channel.send("uwu");
+					message.channel.send("uwu (≧∇≦*)");
 				default:
 					message.channel.send(`sry! idk what \`${cmd[0]}\` means ¯\\_(ツ)_/¯`);
 			}
 		}
+	} else if (message.content.trim() === `${prefix}help`) {
+		//Exception for help
+		message.channel.send(`try that in ${message.guild.channels.cache.get(process.env.DISCORD_CHANNELID_COMMANDS)} (｡•̀ᴗ-)✧`);
 	}
 });
 
