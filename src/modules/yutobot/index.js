@@ -1,4 +1,5 @@
 const Discord = require("discord.js");
+const sixLettersToWarn = require("../vcsyncwarn");
 
 const start = () => {
 	const client = new Discord.Client({
@@ -55,6 +56,13 @@ const start = () => {
 		} else if (message.content.trim() === `${prefix}help`) {
 			//Exception for help
 			message.channel.send(`try that in ${message.guild.channels.cache.get(process.env.DISCORD_CHANNELID_COMMANDS)} (｡•̀ᴗ-)✧`);
+		} else {
+			//Other messages
+			if (message.channel.id !== process.env.DISCORD_CHANNELID_VC_SYNC) {
+				if (message.content.trim().length == 6) {
+					sixLettersToWarn(client, message);
+				}
+			}
 		}
 	});
 
