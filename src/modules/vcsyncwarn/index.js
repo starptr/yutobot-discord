@@ -11,9 +11,8 @@ const sixLettersToWarn = (client, message) => {
 	const msgStr = message.content;
 	if (msgStr.match(amongUs.regex) && !amongUs.ignore.includes(msgStr)) {
 		const vc_sync_channel = message.guild.channels.cache.get(process.env.DISCORD_CHANNELID_VC_SYNC);
-		vc_sync_channel.send(`Hey ${message.member.user}! It looks like you sent an Among Us room code in ${message.channel}. To help prevent spam, please send codes into this channel, ${vc_sync_channel}.
-For everybody else, the room code is \`${message.content}\`. Have fun! (o´∀\`o)
-(This Anti-spam feature is currently in beta. If you notice any problems, please ping @*ptr.)`);
+		vc_sync_channel.send(`hey ${message.member.user}! please send Among Us room codes into ${vc_sync_channel} so that other channels like ${message.channel} don't get too cluttered (´• ω •\`) ♡
+btw, the room code is \`${message.content}\`. have fun! ＼(≧▽≦)／`);
 	}
 };
 
