@@ -1,5 +1,11 @@
+const path = require("path");
+const fs = require("fs");
+
 const Discord = require("discord.js");
 const sixLettersToWarn = require("../vcsyncwarn");
+const vcMirror = require("../vcmirror");
+
+let vConnection, vDispatcher;
 
 const start = () => {
 	const client = new Discord.Client({
@@ -10,6 +16,19 @@ const start = () => {
 			},
 		},
 	});
+
+	/*
+	const vcClient = new Discord.Client({
+		presence: {
+			activity: {
+				type: "LISTENING",
+				name: `YutoBot`,
+			},
+		},
+	});
+	vcClient.once("ready", () => console.log("VCMirror Ready!"));
+	vcClient.login(process.env.DISCORD_VCMIRROR_BOT_TOKEN);
+	*/
 
 	client.once("ready", () => {
 		console.log("Ready!");
@@ -28,7 +47,7 @@ const start = () => {
 	});
 
 	//Listen to commands in the commands channel (except help)
-	client.on("message", message => {
+	client.on("message", async message => {
 		const prefix = process.env.DISCORD_COMMAND_PREFIX;
 		//Check message is in commands channel
 		if (message.channel.id === process.env.DISCORD_CHANNELID_COMMANDS) {
@@ -39,6 +58,34 @@ const start = () => {
 				switch (cmd[0]) {
 					case "ping":
 						message.channel.send("Pong! (￣▽￣)ノ");
+						break;
+					case "mafia":
+					case "resistance":
+					case "avalon":
+					case "among-us":
+					case "mirror":
+					case "vc-mirror":
+						{
+							if (message.member.voice.channel) {
+								vConnection = await message.member.voice.channel.join();
+								//oConnection = await vcClient.channels.cache.get(process.env.DISCORD_CHANNELID_VC_GRAVEYARD).join();
+								vDispatcher = vConnection.play(" " /*path.resolve(__dirname, "default.mp3")*/);
+								const audio = vConnection.receiver.createStream("MY DISCORD ID", { mode: "opus", end: "manual" });
+
+								vcMirror.start(audio, message);
+							}
+						}
+						break;
+					case "disconnect":
+					case "break":
+					case "cut":
+						{
+							//Todo: Handle exception if uninit (.mirror after disconnectino works)
+							if (message.member.voice.channel) {
+								vcMirror.stop();
+								vConnection.disconnect();
+							}
+						}
 						break;
 					case "help":
 						message.channel.send("no 3>");
