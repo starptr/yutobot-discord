@@ -12,6 +12,7 @@
 	"author": "Yuto Nishida <yuyu.nishida@gmail.com>",
 	"license": "MIT",
 	"dependencies": {
+		"@discordjs/opus": "^0.3.2",
 		"babel-watch": "^7.0.0",
 		"discord.js": "^12.3.1",
 		"dotenv": "^8.2.0"
