@@ -15,14 +15,13 @@ const client = new Discord.Client({
 
 client.once("ready", () => console.log("VCMirror Ready!"));
 
-let audio;
-
 let connection;
 let dispatcher;
 
-const start = async (audio, message) => {
+const start = async (audios, message) => {
 	connection = await client.channels.cache.get(process.env.DISCORD_CHANNELID_VC_GRAVEYARD).join();
-	dispatcher = connection.play(audio, { type: "opus" });
+	//dispatcher = connection.play(audio, { type: "opus" });
+	dispatchers = audios.map(audio => connection.play(audio, { type: "opus" }));
 };
 
 const stop = async () => {

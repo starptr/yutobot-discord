@@ -59,31 +59,53 @@ const start = () => {
 					case "ping":
 						message.channel.send("Pong! (￣▽￣)ノ");
 						break;
-					case "mafia":
-					case "resistance":
-					case "avalon":
-					case "among-us":
 					case "mirror":
-					case "vc-mirror":
 						{
-							if (message.member.voice.channel) {
-								vConnection = await message.member.voice.channel.join();
-								//oConnection = await vcClient.channels.cache.get(process.env.DISCORD_CHANNELID_VC_GRAVEYARD).join();
-								vDispatcher = vConnection.play(" " /*path.resolve(__dirname, "default.mp3")*/);
-								const audio = vConnection.receiver.createStream("MY DISCORD ID", { mode: "opus", end: "manual" });
+							switch (cmd[1]) {
+								case "i":
+								case "init":
+									{
+										if (message.member.voice.channel) {
+											vConnection = await message.member.voice.channel.join();
+											//oConnection = await vcClient.channels.cache.get(process.env.DISCORD_CHANNELID_VC_GRAVEYARD).join();
+											vDispatcher = vConnection.play(path.resolve(__dirname, "default.mp3"), { volume: 0 });
 
-								vcMirror.start(audio, message);
-							}
-						}
-						break;
-					case "disconnect":
-					case "break":
-					case "cut":
-						{
-							//Todo: Handle exception if uninit (.mirror after disconnectino works)
-							if (message.member.voice.channel) {
-								vcMirror.stop();
-								vConnection.disconnect();
+											/*
+											let audios = Array.from(message.member.voice.channel.members.values()).map(member =>
+												vConnection.receiver.createStream(member.id, { mode: "opus", end: "manual" })
+											);
+											*/
+											let audios = [
+												//Doesn't work; can only stream 1
+												vConnection.receiver.createStream("MY ID", { mode: "opus", end: "manual" }),
+												vConnection.receiver.createStream("SOMEONE ELSE", { mode: "opus", end: "manual" }),
+											];
+
+											console.log(audios);
+
+											/*
+											const audio = vConnection.receiver.createStream("MY ID", {
+												mode: "opus",
+												end: "manual",
+											});
+											*/
+
+											vcMirror.start(audios, message).catch(console.error);
+										}
+									}
+									break;
+								case "c":
+								case "cut":
+									{
+										//Todo: Handle exception if uninit (.mirror after disconnectino works)
+										if (message.member.voice.channel) {
+											vcMirror.stop().catch(console.error);
+											vConnection.disconnect();
+										}
+									}
+									break;
+								default: {
+								}
 							}
 						}
 						break;
