@@ -60,7 +60,7 @@ const start = () => {
 			//Other messages
 			if (message.channel.id !== process.env.DISCORD_CHANNELID_VC_SYNC) {
 				if (message.content.trim().length == 6) {
-					sixLettersToWarn(client, message);
+					//sixLettersToWarn(client, message);
 				}
 			}
 		}
