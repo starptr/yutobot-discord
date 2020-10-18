@@ -70,16 +70,18 @@ const start = () => {
 											//oConnection = await vcClient.channels.cache.get(process.env.DISCORD_CHANNELID_VC_GRAVEYARD).join();
 											vDispatcher = vConnection.play(path.resolve(__dirname, "default.mp3"), { volume: 0 });
 
-											/*
+											//vConnection.on("debug", console.log);
+
 											let audios = Array.from(message.member.voice.channel.members.values()).map(member =>
 												vConnection.receiver.createStream(member.id, { mode: "opus", end: "manual" })
 											);
-											*/
+											/*
 											let audios = [
 												//Doesn't work; can only stream 1
-												vConnection.receiver.createStream("MY ID", { mode: "opus", end: "manual" }),
-												vConnection.receiver.createStream("SOMEONE ELSE", { mode: "opus", end: "manual" }),
+												vConnection.receiver.createStream("345370431987122180", { mode: "opus", end: "manual" }),
+												vConnection.receiver.createStream("756397443565879367", { mode: "opus", end: "manual" }),
 											];
+											*/
 
 											console.log(audios);
 
