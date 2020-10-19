@@ -66,33 +66,40 @@ const start = () => {
 								case "init":
 									{
 										if (message.member.voice.channel) {
-											vConnection = await message.member.voice.channel.join();
-											//oConnection = await vcClient.channels.cache.get(process.env.DISCORD_CHANNELID_VC_GRAVEYARD).join();
-											vDispatcher = vConnection.play(path.resolve(__dirname, "default.mp3"), { volume: 0 });
+											try {
+												vConnection = await message.member.voice.channel.join();
+												//oConnection = await vcClient.channels.cache.get(process.env.DISCORD_CHANNELID_VC_GRAVEYARD).join();
+												vDispatcher = vConnection.play(path.resolve(__dirname, "default.mp3"), { volume: 0 });
 
-											//vConnection.on("debug", console.log);
+												//vConnection.on("debug", console.log);
 
-											let audios = Array.from(message.member.voice.channel.members.values()).map(member =>
-												vConnection.receiver.createStream(member.id, { mode: "opus", end: "manual" })
-											);
-											/*
-											let audios = [
-												//Doesn't work; can only stream 1
-												vConnection.receiver.createStream("345370431987122180", { mode: "opus", end: "manual" }),
-												vConnection.receiver.createStream("756397443565879367", { mode: "opus", end: "manual" }),
-											];
-											*/
+												let audios = Array.from(message.member.voice.channel.members.filter(member => {
+													//Ignore Rhythm bot
+													console.log(member.id);
+													return member.id !== '235088799074484224';
+												}).values()).map(member =>
+													vConnection.receiver.createStream(member.id, { mode: "opus", end: "manual" })
+												);
+												/*
+												let audios = [
+													//Doesn't work; can only stream 1
+													vConnection.receiver.createStream("345370431987122180", { mode: "opus", end: "manual" }),
+													vConnection.receiver.createStream("756397443565879367", { mode: "opus", end: "manual" }),
+												];
+												*/
 
-											console.log(audios);
+												console.log(audios);
 
-											/*
-											const audio = vConnection.receiver.createStream("MY ID", {
-												mode: "opus",
-												end: "manual",
-											});
-											*/
-
-											vcMirror.start(audios, message).catch(console.error);
+												/*
+												const audio = vConnection.receiver.createStream("MY ID", {
+													mode: "opus",
+													end: "manual",
+												});
+												*/
+												vcMirror.start(audios, message).catch(console.error);
+											} catch (e) {
+												console.error(e)
+											}
 										}
 									}
 									break;
