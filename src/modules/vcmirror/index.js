@@ -54,7 +54,7 @@ const start = async (audios, message) => {
 	//connection = await client.channels.cache.get(process.env.DISCORD_CHANNELID_VC_GRAVEYARD).join();
 	//connection2 = await client2.channels.cache.get(process.env.DISCORD_CHANNELID_VC_GRAVEYARD).join();
 	//dispatcher = connection.play(audio, { type: "opus" });
-	dispatchers = audios.map((audio,index) => connections[index].play(audio, { type: "opus", volume: 0.5 }));
+	dispatchers = audios.map((audio,index) => connections[index].play(audio, { type: "opus", volume: 0.45 }));
 	//dispatcher1 = connection.play(audios[0], { type: "opus" });
 	//dispatcher2 = connection2.play(audios[1], { type: "opus" });
 };

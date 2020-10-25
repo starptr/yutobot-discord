@@ -65,6 +65,8 @@ const start = () => {
 								case "i":
 								case "init":
 									{
+										message.channel.send("Avengers assemble");
+
 										if (message.member.voice.channel) {
 											try {
 												vConnection = await message.member.voice.channel.join();
@@ -106,6 +108,7 @@ const start = () => {
 								case "c":
 								case "cut":
 									{
+										message.channel.send("Avengers disassemble");
 										//Todo: Handle exception if uninit (.mirror after disconnectino works)
 										if (message.member.voice.channel) {
 											vcMirror.stop().catch(console.error);
