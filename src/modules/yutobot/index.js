@@ -54,7 +54,8 @@ const start = () => {
 						break;
 					case "v":
 					case "version":
-						message.channel.send(`Running YutoBot v${pkgInfo.version}`)
+						message.channel.send(`Running YutoBot v${pkgInfo.version}`);
+						break;
 					default:
 						message.channel.send(`sry! idk what \`${cmd[0]}\` means ¯\\_(ツ)_/¯`);
 				}
