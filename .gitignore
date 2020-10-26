@@ -117,3 +117,6 @@ dist
 
 # transpiled directory
 bin/
+
+# secrets
+tokens.json
