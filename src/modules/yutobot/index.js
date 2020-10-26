@@ -1,5 +1,6 @@
 const Discord = require("discord.js");
 const sixLettersToWarn = require("../vcsyncwarn");
+const pkgInfo = require("../../../package.json");
 
 const start = () => {
 	const client = new Discord.Client({
@@ -51,6 +52,9 @@ const start = () => {
 					case "owo":
 						message.channel.send("uwu (≧∇≦*)");
 						break;
+					case "v":
+					case "version":
+						message.channel.send(`Running YutoBot v${pkgInfo.version}`)
 					default:
 						message.channel.send(`sry! idk what \`${cmd[0]}\` means ¯\\_(ツ)_/¯`);
 				}
