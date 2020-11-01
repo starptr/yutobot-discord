@@ -31,44 +31,44 @@ const start = () => {
 	});
 
 	//Listen to commands in the commands channel (except help)
-	client.on("message", message => {
+	client.on("message", async message => {
 		const prefix = process.env.DISCORD_COMMAND_PREFIX;
 		//Check message is in commands channel
-		if (message.channel.id === process.env.DISCORD_CHANNELID_COMMANDS) {
-			if (message.content.startsWith(prefix)) {
-				//Valid command syntax; handle command
-				//Tokenize command into words
-				const cmd = message.content.slice(1).trim().split(" ");
-				switch (cmd[0]) {
-					case "ping":
-						message.channel.send("Pong! (￣▽￣)ノ");
-						break;
-					case "help":
-						message.channel.send("no 3>");
-						break;
-					case "uwu":
-						message.channel.send("owo (*≧▽≦)");
-						break;
-					case "owo":
-						message.channel.send("uwu (≧∇≦*)");
-						break;
-					case "v":
-					case "version":
-						message.channel.send(`Running YutoBot v${pkgInfo.version}`);
-						break;
-					default:
-						message.channel.send(`sry! idk what \`${cmd[0]}\` means ¯\\_(ツ)_/¯`);
-				}
-			}
-		} else if (message.content.trim() === `${prefix}help`) {
-			//Exception for help
-			message.channel.send(`try that in ${message.guild.channels.cache.get(process.env.DISCORD_CHANNELID_COMMANDS)} (｡•̀ᴗ-)✧`);
-		} else {
-			//Other messages
-			if (message.channel.id !== process.env.DISCORD_CHANNELID_VC_SYNC) {
-				if (message.content.trim().length == 6) {
-					//sixLettersToWarn(client, message);
-				}
+		if (message.content.startsWith(prefix)) {
+			//Valid command syntax; handle command
+			//Tokenize command into words
+			const cmd = message.content.slice(1).trim().split(" ");
+			switch (cmd[0]) {
+				case "ping":
+					message.channel.send("Pong! (￣▽￣)ノ");
+					break;
+				case "help":
+					message.channel.send("no 3>");
+					break;
+				case "uwu":
+					message.channel.send("owo (*≧▽≦)");
+					break;
+				case "owo":
+					message.channel.send("uwu (≧∇≦*)");
+					break;
+				case "v":
+				case "version":
+					message.channel.send(`Running YutoBot v${pkgInfo.version}`);
+					break;
+				case "foocheck":
+					if (message.member.hasPermission("MANAGE_ROLES")) {
+						try {
+							const allMembers = (await message.guild.members.fetch()).array().filter(member => !member.user.bot);
+							const allMembersWithoutFoo = allMembers.filter(member => !member.roles.cache.array().some(role => role.name === 'foo'));
+							message.channel.send(`No foos: \`${allMembersWithoutFoo.map(member => member.nickname || member.user.username).join("`, `")}\``);
+						} catch (err) {
+							console.error("foocheck failed.")
+							console.error(err);
+						}
+					}
+					break;
+				default:
+					message.channel.send(`sry! idk what \`${cmd[0]}\` means ¯\\_(ツ)_/¯`);
 			}
 		}
 	});
