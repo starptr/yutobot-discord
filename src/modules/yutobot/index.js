@@ -1,6 +1,9 @@
 const Discord = require("discord.js");
 const sixLettersToWarn = require("../vcsyncwarn");
+const owoifier = require("../owoifier");
 const pkgInfo = require("../../../package.json");
+
+let owoifierEnabled = false;
 
 const start = () => {
 	const client = new Discord.Client({
@@ -67,9 +70,18 @@ const start = () => {
 						}
 					}
 					break;
+				case "owoifier":
+					if (message.member.hasPermission("ADMINISTRATOR")) {
+						owoifierEnabled = !owoifierEnabled;
+						message.channel.send(owoifierEnabled ? "1" : "0");
+					}
 				default:
 					message.channel.send(`sry! idk what \`${cmd[0]}\` means ¯\\_(ツ)_/¯`);
 			}
+		}
+
+		if (message.channel.id === process.env.DISCORD_CHANNELID_GENERAL && !message.author.bot && (Math.random() < 0.25)) {
+			owoifier(message);
 		}
 	});
 
