@@ -3,7 +3,8 @@ const sixLettersToWarn = require("../vcsyncwarn");
 const owoifier = require("../owoifier");
 const pkgInfo = require("../../../package.json");
 
-let owoifierEnabled = false;
+let owoifierEnabled = true;
+let owoifierCounter = 0;
 
 const start = () => {
 	const client = new Discord.Client({
@@ -72,7 +73,12 @@ const start = () => {
 					break;
 				case "owoifier":
 					if (message.member.hasPermission("ADMINISTRATOR")) {
-						owoifierEnabled = !owoifierEnabled;
+						if (owoifierEnabled) {
+							owoifierEnabled = false;
+						} else {
+							owoifierEnabled = true;
+							owoifierCounter = 0;
+						}
 						message.channel.send(owoifierEnabled ? "1" : "0");
 					}
 				default:
@@ -80,8 +86,13 @@ const start = () => {
 			}
 		}
 
-		if (message.channel.id === process.env.DISCORD_CHANNELID_GENERAL && !message.author.bot && (Math.random() < 0.25)) {
-			owoifier(message);
+		if (message.channel.id === process.env.DISCORD_CHANNELID_GENERAL && !message.author.bot) {
+			console.log(owoifierCounter);
+			if (owoifierCounter === 0) {
+				owoifier(message);
+			}
+			owoifierCounter++;
+			owoifierCounter %= 100;
 		}
 	});
 
