@@ -1,0 +1,7 @@
+version: "3.7"
+
+services:
+    app:
+        images: yuto7/yutobot-discord
+        volumes:
+            - ./.env:/.env

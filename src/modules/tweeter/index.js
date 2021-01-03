@@ -9,26 +9,30 @@ const twitterConf = {
 
 const isReply = tweet => {
 	if (tweet.retweeted_status
-	    || tweet.in_reply_to_status_id
-	    || tweet.in_reply_to_status_id_str
-	    || tweet.in_reply_to_user_id
-	    || tweet.in_reply_to_user_id_str
-	    || tweet.in_reply_to_screen_name) return true;
+		|| tweet.in_reply_to_status_id
+		|| tweet.in_reply_to_status_id_str
+		|| tweet.in_reply_to_user_id
+		|| tweet.in_reply_to_user_id_str
+		|| tweet.in_reply_to_screen_name) return true;
 	else return false;
 };
 
 const tweeter = (discordClient) => {
-	console.log("tweeter");
-	const twitterClient = new Twitter(twitterConf);
-	const stream = twitterClient.stream('statuses/filter', {
-		follow: process.env.TWITTER_USERID,
-	});
-	stream.on('tweet', tweet => {
-		if (!isReply(tweet)) {
-			discordClient.channels.cache.get(process.env.DISCORD_CHANNELID_STREAM).send(`https://twitter.com/${tweet.user.screen_name}/status/${tweet.id_str}`);
-		}
-		return false;
-	});
+	try {
+		console.log("tweeter");
+		const twitterClient = new Twitter(twitterConf);
+		const stream = twitterClient.stream('statuses/filter', {
+			follow: process.env.TWITTER_USERID,
+		});
+		stream.on('tweet', tweet => {
+			if (!isReply(tweet)) {
+				discordClient.channels.cache.get(process.env.DISCORD_CHANNELID_STREAM).send(`https://twitter.com/${tweet.user.screen_name}/status/${tweet.id_str}`);
+			}
+			return false;
+		});
+	} catch (e) {
+		console.error(e);
+	}
 };
 
 module.exports = tweeter;
