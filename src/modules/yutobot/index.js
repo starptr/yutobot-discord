@@ -66,10 +66,14 @@ const start = () => {
 					if (message.member.hasPermission("MANAGE_ROLES")) {
 						try {
 							const allMembers = (await message.guild.members.fetch()).array().filter(member => !member.user.bot);
-							const allMembersWithoutFoo = allMembers.filter(member => !member.roles.cache.array().some(role => role.name === 'foo'));
-							message.channel.send(`No foos: \`${allMembersWithoutFoo.map(member => member.nickname || member.user.username).join("`, `")}\``);
+							const allMembersWithoutFoo = allMembers.filter(
+								member => !member.roles.cache.array().some(role => role.name === "foo")
+							);
+							message.channel.send(
+								`No foos: \`${allMembersWithoutFoo.map(member => member.nickname || member.user.username).join("`, `")}\``
+							);
 						} catch (err) {
-							console.error("foocheck failed.")
+							console.error("foocheck failed.");
 							console.error(err);
 						}
 					}
@@ -90,7 +94,6 @@ const start = () => {
 		}
 
 		if (message.channel.id === process.env.DISCORD_CHANNELID_GENERAL && !message.author.bot) {
-			console.log(owoifierCounter);
 			if (owoifierCounter === 0) {
 				owoifier(message);
 			}

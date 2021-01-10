@@ -7,7 +7,7 @@ const amongUs = {
 };
 
 const sixLettersToWarn = (client, message) => {
-	console.log(message.content);
+	//console.log(message.content);
 	const msgStr = message.content;
 	if (msgStr.match(amongUs.regex) && !amongUs.ignore.includes(msgStr)) {
 		const vc_sync_channel = message.guild.channels.cache.get(process.env.DISCORD_CHANNELID_VC_SYNC);
