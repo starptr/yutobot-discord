@@ -1,7 +1,7 @@
 const Discord = require("discord.js");
-const sixLettersToWarn = require("../vcsyncwarn");
+//const sixLettersToWarn = require("../vcsyncwarn");
 const owoifier = require("../owoifier");
-const tweeter = require("../tweeter");
+//const tweeter = require("../tweeter");
 const pkgInfo = require("../../../package.json");
 
 let owoifierEnabled = true;
@@ -16,8 +16,6 @@ const start = () => {
 			},
 		},
 	});
-
-	tweeter(client);
 
 	client.once("ready", () => {
 		console.log("Ready!");
