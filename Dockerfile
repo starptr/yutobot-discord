@@ -1,6 +1,7 @@
-FROM node:12 AS build
-WORKDIR /
-COPY package.json yarn.lock ./
-RUN yarn install --production
+FROM node:14-alpine
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
+COPY ./package.json ./
+RUN yarn install && yarn build
 COPY ./bin ./bin
-CMD ["node", "./bin/index.js"]
+CMD ["yarn", "deploy"]
