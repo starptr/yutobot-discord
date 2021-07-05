@@ -18,9 +18,9 @@ jobs:
       uses: actions/setup-node@v2
       with:
         node-version: '14'
-        cache: 'yarn'
+        cache: 'npm'
     - name: Install caprover CLI
-      run: yarn global add caprover@2
+      run: npm install -g caprover@2
     - name: Deploy to caprover
       env:
         HOST: ${{ secrets.HOST }}
