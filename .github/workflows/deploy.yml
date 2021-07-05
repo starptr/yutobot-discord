@@ -27,4 +27,4 @@ jobs:
         PW: ${{ secrets.PW }}
         APP: ${{ secrets.APP }}
         BRANCH: ${{ secrets.BRANCH }}
-      run: echo $PW | caprover deploy -h $HOST -b $BRANCH -a $APP
+      run: echo $PW | caprover deploy -h $HOST -p $PW -a $APP -b $BRANCH
