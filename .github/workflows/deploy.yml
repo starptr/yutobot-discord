@@ -1,0 +1,30 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - deploy
+
+jobs:
+  main:
+    runs-on: ubuntu-20.04
+    defaults:
+      run:
+        shell: bash
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v2
+    - name: Setup node
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'
+        cache: 'yarn'
+    - name: Install caprover CLI
+      run: yarn global add caprover@2
+    - name: Deploy to caprover
+      env:
+        HOST: ${{ secrets.HOST }}
+        PW: ${{ secrets.PW }}
+        APP: ${{ secrets.APP }}
+        BRANCH: ${{ secrets.BRANCH }}
+      run: caprover deploy -h $HOST -p $PW -a $APP -b $BRANCH
