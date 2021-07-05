@@ -23,8 +23,8 @@ jobs:
       run: npm install -g caprover@2
     - name: Deploy to caprover
       env:
-        HOST: ${{ secrets.HOST }}
-        PW: ${{ secrets.PW }}
-        APP: ${{ secrets.APP }}
-        BRANCH: ${{ secrets.BRANCH }}
+        HOST: ${{ secrets.caprover.HOST }}
+        PW: ${{ secrets.caprover.PW }}
+        APP: ${{ secrets.caprover.APP }}
+        BRANCH: ${{ secrets.caprover.BRANCH }}
       run: caprover deploy -h $HOST -p $PW -a $APP -b $BRANCH
