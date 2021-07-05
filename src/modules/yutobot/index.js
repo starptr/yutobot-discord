@@ -1,4 +1,11 @@
 const Discord = require("discord.js");
+//const sixLettersToWarn = require("../vcsyncwarn");
+const owoifier = require("../owoifier");
+//const tweeter = require("../tweeter");
+const pkgInfo = require("../../../package.json");
+
+let owoifierEnabled = true;
+let owoifierCounter = 0;
 
 const start = () => {
 	const client = new Discord.Client({
@@ -20,41 +27,76 @@ const start = () => {
 		const welcomeTextChannel = guildChannelManagerCache.get(process.env.DISCORD_CHANNELID_WELCOME);
 		const vcSyncTextChannel = guildChannelManagerCache.get(process.env.DISCORD_CHANNELID_VC_SYNC);
 		const commandsTextChannl = guildChannelManagerCache.get(process.env.DISCORD_CHANNELID_COMMANDS);
+		const spawnTextChannel = guildChannelManagerCache.get(process.env.DISCORD_CHANNELID_SPAWN);
+		const readmeTextChannel = guildChannelManagerCache.get(process.env.DISCORD_CHANNELID_README);
 
 		welcomeTextChannel.send(
-			`welcome ${member.user}, there's cool shit in ${welcomeTextChannel}, ${vcSyncTextChannel} for text messages during voicechat, and ${commandsTextChannl} for interacting with bots, enjoy`
+			`welcome ${member.user}, read ${readmeTextChannel}, ${vcSyncTextChannel} for text messages during voicechat, ${commandsTextChannl} and ${spawnTextChannel} for interacting with bots, enjoy`
 		);
 	});
 
 	//Listen to commands in the commands channel (except help)
-	client.on("message", message => {
+	client.on("message", async message => {
 		const prefix = process.env.DISCORD_COMMAND_PREFIX;
 		//Check message is in commands channel
-		if (message.channel.id === process.env.DISCORD_CHANNELID_COMMANDS) {
-			if (message.content.startsWith(prefix)) {
-				//Valid command syntax; handle command
-				//Tokenize command into words
-				const cmd = message.content.slice(1).trim().split(" ");
-				switch (cmd[0]) {
-					case "ping":
-						message.channel.send("Pong! (￣▽￣)ノ");
-						break;
-					case "help":
-						message.channel.send("no 3>");
-						break;
-					case "uwu":
-						message.channel.send("owo (*≧▽≦)");
-						break;
-					case "owo":
-						message.channel.send("uwu (≧∇≦*)");
-						break;
-					default:
-						message.channel.send(`sry! idk what \`${cmd[0]}\` means ¯\\_(ツ)_/¯`);
-				}
+		if (message.content.startsWith(prefix)) {
+			//Valid command syntax; handle command
+			//Tokenize command into words
+			const cmd = message.content.slice(1).trim().split(" ");
+			switch (cmd[0]) {
+				case "ping":
+					message.channel.send("Pong! (￣▽￣)ノ");
+					break;
+				case "help":
+					message.channel.send("no 3>");
+					break;
+				case "uwu":
+					message.channel.send("owo (*≧▽≦)");
+					break;
+				case "owo":
+					message.channel.send("uwu (≧∇≦*)");
+					break;
+				case "v":
+				case "version":
+					message.channel.send(`Running YutoBot v${pkgInfo.version}`);
+					break;
+				case "foocheck":
+					if (message.member.hasPermission("MANAGE_ROLES")) {
+						try {
+							const allMembers = (await message.guild.members.fetch()).array().filter(member => !member.user.bot);
+							const allMembersWithoutFoo = allMembers.filter(
+								member => !member.roles.cache.array().some(role => role.name === "foo")
+							);
+							message.channel.send(
+								`No foos: \`${allMembersWithoutFoo.map(member => member.nickname || member.user.username).join("`, `")}\``
+							);
+						} catch (err) {
+							console.error("foocheck failed.");
+							console.error(err);
+						}
+					}
+					break;
+				case "owoifier":
+					if (message.member.hasPermission("ADMINISTRATOR")) {
+						if (owoifierEnabled) {
+							owoifierEnabled = false;
+						} else {
+							owoifierEnabled = true;
+							owoifierCounter = 0;
+						}
+						message.channel.send(owoifierEnabled ? "1" : "0");
+					}
+				default:
+					message.channel.send(`sry! idk what \`${cmd[0]}\` means ¯\\_(ツ)_/¯`);
 			}
-		} else if (message.content.trim() === `${prefix}help`) {
-			//Exception for help
-			message.channel.send(`try that in ${message.guild.channels.cache.get(process.env.DISCORD_CHANNELID_COMMANDS)} (｡•̀ᴗ-)✧`);
+		}
+
+		if (message.channel.id === process.env.DISCORD_CHANNELID_GENERAL && !message.author.bot) {
+			if (owoifierCounter === 0) {
+				owoifier(message);
+			}
+			owoifierCounter++;
+			owoifierCounter %= 100;
 		}
 	});
 
@@ -62,3 +104,29 @@ const start = () => {
 };
 
 module.exports = start;
+
+case "warning":
+                    message.channel.send(":warning: WARNING-HEALTH AND SAFETY
+
+BEFORE PLAYING, READ YOUR OPERATIONS
+ MANUAL FOR IMPORTANT INFORMATION
+     ABOUT YOUR HEALTH AND SAFETY.
+
+                          Also online at
+         www.nintendo.com/healthsafety/
+
+                       Press Ⓐ to continue"
+                    break;
+
+case "time":
+						message.channel.send(":warning: WARNING-HEALTH AND SAFETY
+	
+	BEFORE PLAYING, READ YOUR OPERATIONS
+	 MANUAL FOR IMPORTANT INFORMATION
+		 ABOUT YOUR HEALTH AND SAFETY.
+	
+							  Also online at
+			 www.nintendo.com/healthsafety/
+	
+						   Press Ⓐ to continue"
+						break;
