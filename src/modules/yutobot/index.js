@@ -88,6 +88,18 @@ const start = () => {
 					}
 				default:
 					message.channel.send(`sry! idk what \`${cmd[0]}\` means ¯\\_(ツ)_/¯`);
+				case "warning":
+					message.channel.send(`⚠️ WARNING-HEALTH AND SAFETY
+				
+				BEFORE PLAYING, READ YOUR OPERATIONS
+				MANUAL FOR IMPORTANT INFORMATION
+				ABOUT YOUR HEALTH AND SAFETY.
+				
+						  Also online at
+				www.nintendo.com/healthsafety/
+				
+					   Press Ⓐ to continue`)
+					break;
 			}
 		}
 
