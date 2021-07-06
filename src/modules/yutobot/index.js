@@ -3,6 +3,7 @@ const Discord = require("discord.js");
 const owoifier = require("../owoifier");
 //const tweeter = require("../tweeter");
 const pkgInfo = require("../../../package.json");
+const simpleCmdDict = require("./simple_call_response.json");
 
 let owoifierEnabled = true;
 let owoifierCounter = 0;
@@ -44,18 +45,6 @@ const start = () => {
 			//Tokenize command into words
 			const cmd = message.content.slice(1).trim().split(" ");
 			switch (cmd[0]) {
-				case "ping":
-					message.channel.send("Pong! (￣▽￣)ノ");
-					break;
-				case "help":
-					message.channel.send("no 3>");
-					break;
-				case "uwu":
-					message.channel.send("owo (*≧▽≦)");
-					break;
-				case "owo":
-					message.channel.send("uwu (≧∇≦*)");
-					break;
 				case "v":
 				case "version":
 					message.channel.send(`Running YutoBot v${pkgInfo.version}`);
@@ -87,19 +76,11 @@ const start = () => {
 						message.channel.send(owoifierEnabled ? "1" : "0");
 					}
 				default:
-					message.channel.send(`sry! idk what \`${cmd[0]}\` means ¯\\_(ツ)_/¯`);
-				case "warning":
-					message.channel.send(`⚠️ WARNING-HEALTH AND SAFETY
-				
-				BEFORE PLAYING, READ YOUR OPERATIONS
-				MANUAL FOR IMPORTANT INFORMATION
-				ABOUT YOUR HEALTH AND SAFETY.
-				
-						  Also online at
-				www.nintendo.com/healthsafety/
-				
-					   Press Ⓐ to continue`)
-					break;
+					if (simpleCmdDict.hasOwnProperty(cmd[0])) {
+						message.channel.send(simpleCmdDict[cmd[0]]);
+					} else {
+						message.channel.send(`sry! idk what \`${cmd[0]}\` means ¯\\_(ツ)_/¯`);
+					}
 			}
 		}
 
