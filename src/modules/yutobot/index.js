@@ -5,6 +5,13 @@ const owoifier = require("../owoifier");
 const pkgInfo = require("../../../package.json");
 const simpleCmdDict = require("./simple_call_response.json");
 
+//copy pasted from website 
+const { createCanvas, loadImage } = require('canvas')
+const width = 1920;
+const height = 1080;
+const canvas = createCanvas(width, height)
+const ctx = canvas.getContext('2d')
+
 let owoifierEnabled = true;
 let owoifierCounter = 0;
 
@@ -75,6 +82,21 @@ const start = () => {
 						}
 						message.channel.send(owoifierEnabled ? "1" : "0");
 					}
+				
+				
+				case "Ⓐ":
+					ctx.font = "75px Arial";
+					ctx.textAlign = "center";
+					//var today = new Date();   
+					//var time = today.getHours() + ":" + today.getMinutes();
+					loadImage('C:/Users/wfran/Documents/GitHub/node-canvas/examples/images/wiimenu.png').then((image) => {
+						ctx.drawImage(image, 0, 0)
+					    const buffer = canvas.toBuffer("image/png");
+						ctx.fillText("Hello, &ref!", 980, 980);
+						
+						return message.channel.send(new Discord.MessageAttachment(canvas.toBuffer("image/png")))
+					});
+					
 				default:
 					if (simpleCmdDict.hasOwnProperty(cmd[0])) {
 						message.channel.send(simpleCmdDict[cmd[0]]);
