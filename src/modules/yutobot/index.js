@@ -6,7 +6,10 @@ const pkgInfo = require("../../../package.json");
 const simpleCmdDict = require("./simple_call_response.json");
 
 //copy pasted from website 
-const { createCanvas, loadImage } = require('canvas')
+const { registerFont, createCanvas, loadImage } = require('canvas')
+registerFont("C:/Users/wfran/Documents/GitHub/yutobot-discord/assets/FOT-RodinBokutohPro-B.otf", { family: "RBP" })
+
+//const { createCanvas, loadImage } = require('canvas')
 const width = 1920;
 const height = 1080;
 const canvas = createCanvas(width, height)
@@ -85,17 +88,18 @@ const start = () => {
 				
 				
 				case "Ⓐ":
-					ctx.font = "75px Arial";
+					ctx.font = "75px 'RBP'";
 					ctx.textAlign = "center";
 					//var today = new Date();   
-					//var time = today.getHours() + ":" + today.getMinutes();
-					loadImage('C:/Users/wfran/Documents/GitHub/node-canvas/examples/images/wiimenu.png').then((image) => {
+					// PROBLEM HERE -> var time = today.getHours() + ":" + today.getMinutes();
+					loadImage('C:/Users/wfran/Documents/GitHub/yutobot-discord/assets/wiimenu.png').then((image) => {
 						ctx.drawImage(image, 0, 0)
 					    const buffer = canvas.toBuffer("image/png");
-						ctx.fillText("Hello, &ref!", 980, 980);
-						
+						ctx.fillText("day of week, date", 980, 980);
+						ctx.fillText('time', 980, 870);
 						return message.channel.send(new Discord.MessageAttachment(canvas.toBuffer("image/png")))
 					});
+					break;
 					
 				default:
 					if (simpleCmdDict.hasOwnProperty(cmd[0])) {
