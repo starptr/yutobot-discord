@@ -24,3 +24,4 @@ yarn deploy
 ## Contributors
 Feel free to add yourself :)
 - [nug-nug](https://github.com/nug-nug)
+- [kale](https://github.com/kayleyseow)
