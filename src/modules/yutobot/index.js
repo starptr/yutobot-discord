@@ -5,9 +5,8 @@ const owoifier = require("../owoifier");
 const pkgInfo = require("../../../package.json");
 const simpleCmdDict = require("./simple_call_response.json");
 
-//copy pasted from website 
 const { registerFont, createCanvas, loadImage } = require('canvas')
-registerFont('C:/Users/wfran/Documents/GitHub/yutobot-discord/assets/FOT-RodinBokutohPro-DB.otf', { family: 'RodinBokutohPro' })
+registerFont('./assets/FOT-RodinBokutohPro-DB.otf', { family: 'RodinBokutohPro' })
 const width = 1920;
 const height = 1080;
 const canvas = createCanvas(width, height)
@@ -96,8 +95,7 @@ const start = () => {
 					var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
 					const time = Date().slice(16,21);
 					today = dd + '/' +  mm
-						//write new location of file
-						loadImage('C:/Users/wfran/Documents/GitHub/yutobot-discord/assets/wiimenu.png').then((image) => {
+						loadImage('./assets/wiimenu.png').then((image) => {
 						ctx.drawImage(image, 0, 0)
 					    const buffer = canvas.toBuffer("image/png");
 						ctx.fillStyle = "#828282";
