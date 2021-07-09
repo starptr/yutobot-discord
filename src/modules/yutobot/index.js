@@ -7,13 +7,12 @@ const simpleCmdDict = require("./simple_call_response.json");
 
 //copy pasted from website 
 const { registerFont, createCanvas, loadImage } = require('canvas')
-registerFont("C:/Users/wfran/Documents/GitHub/yutobot-discord/assets/FOT-RodinBokutohPro-B.otf", { family: "RBP" })
-
-//const { createCanvas, loadImage } = require('canvas')
+registerFont('C:/Users/wfran/Documents/GitHub/yutobot-discord/assets/FOT-RodinBokutohPro-DB.otf', { family: 'RodinBokutohPro' })
 const width = 1920;
 const height = 1080;
 const canvas = createCanvas(width, height)
 const ctx = canvas.getContext('2d')
+ctx.font = '75px "FOT-RodinBokutoh Pro DB"';
 
 let owoifierEnabled = true;
 let owoifierCounter = 0;
@@ -88,17 +87,25 @@ const start = () => {
 				
 				
 				case "Ⓐ":
-					ctx.font = "75px 'RBP'";
+					//vars for time/date
 					ctx.textAlign = "center";
-					//var today = new Date();   
-					// PROBLEM HERE -> var time = today.getHours() + ":" + today.getMinutes();
-					loadImage('C:/Users/wfran/Documents/GitHub/yutobot-discord/assets/wiimenu.png').then((image) => {
+					var dateObj = new Date()
+					var weekday = dateObj.toLocaleString("default", { weekday: "short" })
+					var today = new Date();
+					var dd = String(today.getDate()).padStart(2, '0');
+					var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+					const time = Date().slice(16,21);
+					today = dd + '/' +  mm
+						//write new location of file
+						loadImage('C:/Users/wfran/Documents/GitHub/yutobot-discord/assets/wiimenu.png').then((image) => {
 						ctx.drawImage(image, 0, 0)
 					    const buffer = canvas.toBuffer("image/png");
-						ctx.fillText("day of week, date", 980, 980);
-						ctx.fillText('time', 980, 870);
+						ctx.fillStyle = "#828282";
+						ctx.fillText(weekday + " " + today, 980, 990);
+						ctx.fillStyle = "#9b9b9b";
+						ctx.fillText(time, 980, 860);
 						return message.channel.send(new Discord.MessageAttachment(canvas.toBuffer("image/png")))
-					});
+					}); 
 					break;
 					
 				default:
