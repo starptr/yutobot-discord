@@ -4,7 +4,7 @@ const owoifier = require("../owoifier");
 //const tweeter = require("../tweeter");
 const pkgInfo = require("../../../package.json");
 const simpleCmdDict = require("./simple_call_response.json");
-
+const wiimenu = require("../wiimenu");
 let owoifierEnabled = true;
 let owoifierCounter = 0;
 
@@ -75,6 +75,12 @@ const start = () => {
 						}
 						message.channel.send(owoifierEnabled ? "1" : "0");
 					}
+				
+				
+				case "Ⓐ":
+					wiimenu(message);
+					break;
+					
 				default:
 					if (simpleCmdDict.hasOwnProperty(cmd[0])) {
 						message.channel.send(simpleCmdDict[cmd[0]]);
