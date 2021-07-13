@@ -6,7 +6,6 @@ const pkgInfo = require("../../../package.json");
 const simpleCmdDict = require("./simple_call_response.json");
 const wiimenu = require("../wiimenu");
 let owoifierEnabled = true;
-let owoifierCounter = 0;
 
 const start = () => {
 	const client = new Discord.Client({
@@ -71,16 +70,15 @@ const start = () => {
 							owoifierEnabled = false;
 						} else {
 							owoifierEnabled = true;
-							owoifierCounter = 0;
 						}
 						message.channel.send(owoifierEnabled ? "1" : "0");
 					}
-				
-				
+					break;
+
 				case "Ⓐ":
 					wiimenu(message);
 					break;
-					
+
 				default:
 					if (simpleCmdDict.hasOwnProperty(cmd[0])) {
 						message.channel.send(simpleCmdDict[cmd[0]]);
@@ -90,12 +88,10 @@ const start = () => {
 			}
 		}
 
-		if (message.channel.id === process.env.DISCORD_CHANNELID_GENERAL && !message.author.bot) {
-			if (owoifierCounter === 0) {
+		if (owoifierEnabled && message.channel.id === process.env.DISCORD_CHANNELID_GENERAL && !message.author.bot) {
+			if (Math.random() < 0.01) {
 				owoifier(message);
 			}
-			owoifierCounter++;
-			owoifierCounter %= 100;
 		}
 	});
 
